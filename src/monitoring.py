@@ -10,7 +10,7 @@ This module implements a simple time-series style monitoring layer:
 """
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, UTC
 from pathlib import Path
 from typing import Dict, List, Literal
 import csv
@@ -62,7 +62,7 @@ def record_prediction(label: SentimentLabel, score: float, text: str) -> None:
         _state.label_counts[label] += 1
 
     event = SentimentEvent(
-        timestamp=datetime.utcnow(),
+        timestamp=datetime.now(UTC)
         text_length=len(text),
         label=label,
         score=score,
