@@ -28,11 +28,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install "huggingface_hub[cli]"
 
-      - name: Login to Hugging Face
-        uses: huggingface-actions/huggingface-cli-login@v1
-        with:
-          token: ${{ secrets.HF_TOKEN }}
-
       - name: Deploy to Hugging Face Space
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
@@ -40,6 +35,7 @@ jobs:
           SPACE_ID=armandobr3/ProfessionAI_Online_Reputation_Monitoring_Sentiment_Analysis
 
           huggingface-cli upload \
+            --token "$HF_TOKEN" \
             --repo-id "$SPACE_ID" \
             --repo-type space \
             . \
