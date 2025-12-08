@@ -62,7 +62,7 @@ def record_prediction(label: SentimentLabel, score: float, text: str) -> None:
         _state.label_counts[label] += 1
 
     event = SentimentEvent(
-        timestamp=datetime.now(UTC)
+        timestamp=datetime.now(UTC),
         text_length=len(text),
         label=label,
         score=score,
