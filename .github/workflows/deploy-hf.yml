@@ -38,9 +38,7 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          # TODO: replace with your actual Space ID
-          # Example: my-username/machineinnovators-sentiment
-          SPACE_ID="YOUR-USERNAME/YOUR-SPACE"
+          SPACE_ID=armandobr3/ProfessionAI_Online_Reputation_Monitoring_Sentiment_Analysis
 
           huggingface-cli upload \
             --repo-id "$SPACE_ID" \
