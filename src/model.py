@@ -1,4 +1,4 @@
-    # src/model.py
+# src/model.py
 """
 Model utilities.
 
