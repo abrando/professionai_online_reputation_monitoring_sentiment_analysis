@@ -1,12 +1,3 @@
----
-title: ProfessionAI Online Reputation Monitoring
-emoji: 📊
-colorFrom: blue
-colorTo: purple
-sdk: docker
-pinned: false
-app_port: 7860
----
 
 # ProfessionAI_Online_Reputation_Monitoring_Sentiment_Analysis
 ProfessionAI Master AI Engineering. Progetto per il corso "MLOps e Machine Learning in Produzione"
@@ -117,5 +108,4 @@ Model characteristics:
 └── .github/
     └── workflows/
         ├── ci.yml             # tests + lint
-        ├── deploy_hf.yml      # optional deploy to HuggingFace
         └── retrain.yml        # scheduled retraining check
