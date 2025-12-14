@@ -12,6 +12,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipe
 # Pretrained sentiment model for Twitter
 MODEL_NAME = "cardiffnlp/twitter-roberta-base-sentiment-latest"
 
+
 @lru_cache(maxsize=1)
 def load_sentiment_pipeline():
     """

@@ -35,7 +35,7 @@ def main(max_samples: int = 2000, batch_size: int = 32) -> None:
     y_pred = []
 
     for i in range(0, len(texts), batch_size):
-        batch = texts[i : i + batch_size]
+        batch = texts[i: i + batch_size]
         out = clf(batch, truncation=True)
         y_pred.extend([o["label"].lower() for o in out])
 

@@ -55,6 +55,7 @@ def load_sentiment_series(limit: int = 500):
             r["score"] = None
     return rows
 
+
 def load_sentiment_summary() -> Dict[str, Any]:
     rows = _read_csv_tail(SENTIMENT_LOG, 10_000_000)  # “tutto”
     if not rows:
@@ -93,7 +94,7 @@ def load_model_eval_series(limit: int = 200) -> List[Dict[str, Any]]:
         if "macro_f1" in r and r["macro_f1"] not in (None, ""):
             r["macro_f1"] = float(r["macro_f1"])
         if "n_samples" in r and r["n_samples"] not in (None, ""):
-            r["n_samples"] = int(float(last_float := float(r["n_samples"])))
+            r["n_samples"] = int(["n_samples"])
     return rows
 
 
