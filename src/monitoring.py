@@ -124,8 +124,8 @@ def build_stats_payload() -> Dict[str, Any]:
 
     return {
         "total_requests": sentiment_counts.get("total", 0),
-
         "label_counts": sentiment_counts,
+        "label_distribution": sentiment_counts,
 
         "sentiment": {
             "summary": load_sentiment_summary(),
