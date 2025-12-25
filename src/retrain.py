@@ -32,7 +32,7 @@ BASE_MODEL_NAME = "cardiffnlp/twitter-roberta-base-sentiment-latest"
 MODEL_OUT_DIR = Path("models/fine_tuned")
 METRICS_PATH = Path("models/fine_tuned/metrics.json")
 
-
+# Print retraining plan
 def print_retraining_plan(files: List[Path], dfs: List[pd.DataFrame]) -> None:
     """Print original summary of labeled examples per file."""
     print("")

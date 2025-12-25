@@ -13,13 +13,13 @@ import pandas as pd
 
 NEW_DATA_DIR = Path("data/new")
 
-
+# Functions for managing new data files
 def list_new_data_files() -> List[Path]:
     """List CSV files containing newly labeled data for potential retraining."""
     NEW_DATA_DIR.mkdir(parents=True, exist_ok=True)
     return sorted(NEW_DATA_DIR.glob("*.csv"))
 
-
+# Load labeled data from a CSV file
 def load_labeled_data(path: Path) -> Tuple[pd.Series, pd.Series]:
     """Load a labeled dataset from a CSV file.
 

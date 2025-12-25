@@ -21,7 +21,7 @@ ID2LABEL = {0: "negative", 1: "neutral", 2: "positive"}
 REPO_ROOT = Path(__file__).resolve().parents[1]
 OUT_CSV = REPO_ROOT / "data" / "monitoring" / "model_eval.csv"
 
-
+# main function: evaluate and append CSV row
 def main(max_samples: int = 2000, batch_size: int = 32) -> None:
     OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
 
@@ -51,7 +51,7 @@ def main(max_samples: int = 2000, batch_size: int = 32) -> None:
         "macro_f1": macro_f1,
     }
 
-    # append CSV (crea header se non esiste)
+    # append CSV (create if missing)
     df_row = pd.DataFrame([row])
     if OUT_CSV.exists():
         df_row.to_csv(OUT_CSV, mode="a", header=False, index=False)

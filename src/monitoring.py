@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 import csv
 from collections import deque
 
+# Constants
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SENTIMENT_LOG = REPO_ROOT / "data" / "monitoring" / "sentiment_log.csv"
 MODEL_EVAL_LOG = REPO_ROOT / "data" / "monitoring" / "model_eval.csv"
@@ -15,7 +16,7 @@ SERIES_WINDOW_ROWS = 500
 TREND_WINDOW_SIZE = 50
 TREND_POINTS = 500
 
-
+# Record one prediction to the sentiment log
 def record_prediction(label: str, score: float, text: str) -> None:
     """Append one prediction row to the monitoring CSV."""
     SENTIMENT_LOG.parent.mkdir(parents=True, exist_ok=True)
@@ -33,7 +34,7 @@ def record_prediction(label: str, score: float, text: str) -> None:
             }
         )
 
-
+# Helper function to stream CSV rows
 def _rows(path: Path):
     """Stream CSV rows as dicts; empty iterator if missing/unreadable."""
     if not path.exists():
@@ -49,21 +50,21 @@ def _rows(path: Path):
                 yield r
     return gen()
 
-
+# Helper function to convert string to float
 def _f(x: Any) -> Optional[float]:
     try:
         return None if x in (None, "") else float(x)
     except Exception:
         return None
 
-
+# Helper function to convert string to int
 def _i(x: Any) -> Optional[int]:
     try:
         return None if x in (None, "") else int(float(x))
     except Exception:
         return None
 
-
+# Full scan of sentiment log to build stats
 def _scan_sentiment() -> Dict[str, Any]:
     """
     One full pass:
@@ -115,7 +116,7 @@ def _scan_sentiment() -> Dict[str, Any]:
 
     return {"g": g, "total": total, "trend": list(trend), "series": list(series)}
 
-
+# Return the latest model evaluation result
 def _model_eval_latest() -> Optional[Dict[str, Any]]:
     last = None
     for r in _rows(MODEL_EVAL_LOG):
@@ -128,7 +129,7 @@ def _model_eval_latest() -> Optional[Dict[str, Any]]:
     last["n_samples"] = _i(last.get("n_samples"))
     return last
 
-
+# Return a series of model evaluation results
 def _model_eval_series(limit: int = 200) -> List[Dict[str, Any]]:
     tail = deque(maxlen=limit)
     for r in _rows(MODEL_EVAL_LOG):
@@ -139,7 +140,7 @@ def _model_eval_series(limit: int = 200) -> List[Dict[str, Any]]:
         tail.append(rr)
     return list(tail)
 
-
+# Build the full stats payload for monitoring
 def build_stats_payload() -> Dict[str, Any]:
     s = _scan_sentiment()
     return {
