@@ -16,6 +16,7 @@ SERIES_WINDOW_ROWS = 500
 TREND_WINDOW_SIZE = 50
 TREND_POINTS = 500
 
+
 # Record one prediction to the sentiment log
 def record_prediction(label: str, score: float, text: str) -> None:
     """Append one prediction row to the monitoring CSV."""
