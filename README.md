@@ -4,7 +4,7 @@ ProfessionAI Master AI Engineering. Progetto per il corso "MLOps e Machine Learn
 
 # MachineInnovators – Online Reputation Monitoring
 
-### Sentiment Analysis • FastAPI • MLOps • Grafana (Infinity) • Apache Airflow • Hugging Face
+### Sentiment Analysis • FastAPI • MLOps • Grafana (Infinity) • Hugging Face
 
 This project implements a complete Online Reputation Monitoring System using sentiment analysis on social media text.  
 It is the final coursework for the *ProfessionAI Master in AI Engineering* (MLOps & Machine Learning in Production).
@@ -14,7 +14,7 @@ The system demonstrates production-ready MLOps practices:
 - FastAPI inference service
 - Time-series monitoring endpoints
 - Grafana dashboards via Infinity plugin
-- Scheduled retraining logic (stub) via GitHub Actions and Apache Airflow
+- Scheduled retraining logic (stub) via GitHub Actions
 - Dockerized architecture
 
 ---
@@ -51,8 +51,8 @@ This project provides:
                          │ 
                          ▼
        ┌───────────────────────────────────────┐
-       │ Apache Airflow (MLOps orchestration)  │
-       │ Weekly retraining DAG (stub)          │
+       │                                       │
+       │ Weekly retraining                     │
        └───────────────────────────────────────┘
                          │
                          ▼
@@ -90,13 +90,12 @@ Model characteristics:
 │   ├── data.py               # Load new labeled data
 │   └── retrain.py            # Retraining plan
 │
-├── airflow/
-│   └── dags/
-│       └── sentiment_retraining_dag.py   # Airflow weekly retraining DAG
-│
 ├── data/
 │   ├── monitoring/sentiment_log.csv      # Time-series log of predictions
 │   └── new/                              # Future labeled datasets
+│
+├── scripts/
+│   ├── evaluate_model.py      # Model Evaluatio
 │
 ├── tests/
 │   └── test_predict.py
@@ -108,4 +107,9 @@ Model characteristics:
 └── .github/
     └── workflows/
         ├── ci.yml             # tests + lint
+        ├── cd.yml 
         └── retrain.yml        # scheduled retraining check
+
+
+# 5 - Monitoring App Screenshot
+![alt text](image.png)

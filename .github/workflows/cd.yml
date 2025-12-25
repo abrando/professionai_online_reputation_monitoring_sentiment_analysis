@@ -3,9 +3,12 @@ name: CD (Build & Push Docker to GHCR)
 
 on:
   push:
+    branches:
+      - main
     tags:
       - "v*.*.*"
-
+  workflow_dispatch:
+  
 jobs:
   docker:
     runs-on: ubuntu-latest
