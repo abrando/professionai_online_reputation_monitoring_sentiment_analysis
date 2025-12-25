@@ -1,16 +1,24 @@
-# .github/workflows/cd.yml
 name: CD (Build & Push Docker to GHCR)
 
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - "v*.*.*"
+  # Trigger CD only after CI has completed
+  workflow_run:
+    workflows: ["CI"]    # must match the `name:` of ci.yml
+    types: [completed]
+
+  # Optional manual trigger
   workflow_dispatch:
 
 jobs:
   docker:
+    # Run only if CI succeeded and the commit is from main or a version tag
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      (
+        github.event.workflow_run.head_branch == 'main' ||
+        startsWith(github.event.workflow_run.head_branch, 'v')
+      )
+
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -19,35 +27,63 @@ jobs:
       packages: write
 
     steps:
-      - name: Checkout
+      # Checkout the exact commit that was validated by CI
+      - name: Checkout validated commit
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      # Free disk space to avoid "no space left on device"
+      - name: Free disk space
+        run: |
+          docker system prune -af --volumes || true
+          docker builder prune -af || true
+          sudo apt-get clean
+          sudo rm -rf /var/lib/apt/lists/*
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Log in to GHCR
+      - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Docker metadata (tags/labels)
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ghcr.io/${{ github.repository }}
-          tags: |
-            type=ref,event=tag
-            type=raw,value=latest
+      # Compute Docker tags based on branch / git tag
+      - name: Compute Docker tags
+        id: dtags
+        shell: bash
+        run: |
+          set -euo pipefail
 
-      - name: Build and push
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY}"
+          SHA_TAG="sha-${GITHUB_SHA::7}"
+
+          # Always publish the SHA tag
+          TAGS="${IMAGE}:${SHA_TAG}"
+
+          # If CI ran on main, also publish "latest"
+          if [[ "${{ github.event.workflow_run.head_branch }}" == "main" ]]; then
+            TAGS="${TAGS},${IMAGE}:latest"
+          fi
+
+          # If the commit has a version tag (vX.Y.Z), publish it
+          git fetch --tags --force
+          TAG_NAME="$(git tag --points-at ${{ github.event.workflow_run.head_sha }} | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1 || true)"
+          if [[ -n "${TAG_NAME}" ]]; then
+            TAGS="${TAGS},${IMAGE}:${TAG_NAME}"
+          fi
+
+          echo "tags=${TAGS}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           file: Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.dtags.outputs.tags }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=gha,mode=min

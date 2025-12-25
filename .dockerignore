@@ -1,0 +1,64 @@
+# Git & CI
+.git
+.github
+.gitignore
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment & secrets
+.env
+.env.*
+*.key
+*.pem
+
+# Test & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter / notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# ML / data artifacts (FONDAMENTALE)
+data/
+datasets/
+models/
+checkpoints/
+artifacts/
+*.pkl
+*.joblib
+*.h5
+
+# Logs & runtime files
+logs/
+*.log
+
+# Build outputs
+build/
+dist/
+*.egg-info/
+
+# OS / editor junk
+.DS_Store
+.vscode/
+.idea/
+
+# Docs & misc non necessari al container
+README.md
+*.md
+docs/
+
+# Docker files non necessari nel context
+docker-compose.yml

@@ -78,7 +78,12 @@ Model characteristics:
 
 ---
 
-# 4 - Project Structure
+# 4 - Monitoring App Screenshot
+![alt text](image.png)
+
+---
+
+# 5 - Project Structure
 
 ```text
 .
@@ -109,7 +114,3 @@ Model characteristics:
         ├── ci.yml             # tests + lint
         ├── cd.yml 
         └── retrain.yml        # scheduled retraining check
-
-
-# 5 - Monitoring App Screenshot
-![alt text](image.png)
