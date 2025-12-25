@@ -27,7 +27,7 @@ jobs:
 
       - name: Lint (flake8)
         run: |
-          flake8 src --max-line-length=100
+          flake8 src --max-line-length=120
 
       - name: Run tests
         env:

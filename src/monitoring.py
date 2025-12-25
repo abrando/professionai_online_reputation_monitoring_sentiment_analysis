@@ -42,7 +42,7 @@ def _rows(path: Path):
         f = path.open("r", encoding="utf-8", newline="")
     except Exception:
         return iter(())
-    
+
     def gen():
         with f:
             for r in csv.DictReader(f):
@@ -147,9 +147,7 @@ def build_stats_payload() -> Dict[str, Any]:
         "sentiment_trend_moment": s["trend"],
         "sentiment_trend_window_size": TREND_WINDOW_SIZE,
         "sentiment": {
-            "summary": {"total_predictions": int(s["total"]), 
-                        "by_label": s["g"], 
-                        "scope": "full_history"},
+            "summary": {"total_predictions": int(s["total"]), "by_label": s["g"], "scope": "full_history"},
             "series": s["series"],
         },
         "model_eval": {"latest": _model_eval_latest(), "series": _model_eval_series()},
