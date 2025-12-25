@@ -5,139 +5,149 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 from datetime import datetime, timezone
 import csv
+from collections import deque
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-
 SENTIMENT_LOG = REPO_ROOT / "data" / "monitoring" / "sentiment_log.csv"
 MODEL_EVAL_LOG = REPO_ROOT / "data" / "monitoring" / "model_eval.csv"
 
+SERIES_WINDOW_ROWS = 500
+TREND_WINDOW_SIZE = 50
+TREND_POINTS = 500
 
-# ---------- write: used by predict.py ----------
+
 def record_prediction(label: str, score: float, text: str) -> None:
-    """
-    Appende una riga al CSV di monitoring.
-    Questo è chiamato da predict_single / predict_batch.
-    """
+    """Append one prediction row to the monitoring CSV."""
     SENTIMENT_LOG.parent.mkdir(parents=True, exist_ok=True)
-
-    file_exists = SENTIMENT_LOG.exists()
+    new = not SENTIMENT_LOG.exists()
     with SENTIMENT_LOG.open("a", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=["timestamp_utc", "label", "score", "text"])
-        if not file_exists:
-            writer.writeheader()
-        writer.writerow(
+        w = csv.DictWriter(f, fieldnames=["timestamp_utc", "label", "score", "text"])
+        if new:
+            w.writeheader()
+        w.writerow(
             {
                 "timestamp_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-                "label": (label or "").lower(),  # normalize
+                "label": (label or "").lower().strip(),
                 "score": float(score),
                 "text": text,
             }
         )
 
 
-# ---------- read helpers ----------
-def _read_csv_tail(path: Path, limit: int) -> List[Dict[str, Any]]:
+def _rows(path: Path):
+    """Stream CSV rows as dicts; empty iterator if missing/unreadable."""
     if not path.exists():
-        return []
-    with path.open("r", encoding="utf-8", newline="") as f:
-        reader = csv.DictReader(f)
-        rows = list(reader)
-    return rows[-limit:] if rows else []
+        return iter(())
+    try:
+        f = path.open("r", encoding="utf-8", newline="")
+    except Exception:
+        return iter(())
+    def gen():
+        with f:
+            for r in csv.DictReader(f):
+                yield r
+    return gen()
 
 
-# ---------- sentiment: for /stats ----------
-def load_sentiment_series(limit: int = 500):
-    rows = _read_csv_tail(SENTIMENT_LOG, limit)
-    for r in rows:
-        try:
-            r["score"] = float(r["score"])
-        except (KeyError, TypeError, ValueError):
-            # Se score non è convertibile, metti None e non rompere /stats
-            r["score"] = None
-    return rows
-
-
-def load_sentiment_summary() -> Dict[str, Any]:
-    rows = _read_csv_tail(SENTIMENT_LOG, 10_000_000)  # “tutto”
-    if not rows:
-        return {}
-
-    counts: Dict[str, int] = {}
-    for r in rows:
-        lab = (r.get("label") or "").lower()
-        if lab:
-            counts[lab] = counts.get(lab, 0) + 1
-
-    return {"total_predictions": int(len(rows)), "by_label": counts}
-
-
-def load_sentiment_counts() -> Dict[str, int]:
-    """
-    Contatori semplici (Grafana-friendly):
-    sentiment_counts.positive / neutral / negative / total
-    """
-    summary = load_sentiment_summary()
-    by_label = summary.get("by_label") or {}
-
-    positive = int(by_label.get("positive", 0))
-    neutral = int(by_label.get("neutral", 0))
-    negative = int(by_label.get("negative", 0))
-
-    return {
-        "positive": positive,
-        "neutral": neutral,
-        "negative": negative,
-        "total": int(positive + neutral + negative),
-    }
-
-
-# ---------- model eval: for /stats ----------
-def load_model_eval_latest() -> Optional[Dict[str, Any]]:
-    rows = _read_csv_tail(MODEL_EVAL_LOG, 1)
-    if not rows:
+def _f(x: Any) -> Optional[float]:
+    try:
+        return None if x in (None, "") else float(x)
+    except Exception:
         return None
-    last = rows[0]
-    # cast
-    if "accuracy" in last and last["accuracy"] not in (None, ""):
-        last["accuracy"] = float(last["accuracy"])
-    if "macro_f1" in last and last["macro_f1"] not in (None, ""):
-        last["macro_f1"] = float(last["macro_f1"])
-    if "n_samples" in last and last["n_samples"] not in (None, ""):
-        last["n_samples"] = int(float(last["n_samples"]))
+
+
+def _i(x: Any) -> Optional[int]:
+    try:
+        return None if x in (None, "") else int(float(x))
+    except Exception:
+        return None
+
+
+def _scan_sentiment() -> Dict[str, Any]:
+    """
+    One full pass:
+    - full-history counts
+    - non-cumulative moment trend (net counts in last N events)
+    - tail raw series
+    """
+    g = {"positive": 0, "neutral": 0, "negative": 0}
+    total = 0
+
+    win = {"positive": 0, "neutral": 0, "negative": 0}
+    labels = deque(maxlen=TREND_WINDOW_SIZE)
+    trend = deque(maxlen=TREND_POINTS)
+    series = deque(maxlen=SERIES_WINDOW_ROWS)
+
+    for r in _rows(SENTIMENT_LOG):
+        lab = (r.get("label") or "").lower().strip()
+        ts = r.get("timestamp_utc") or r.get("timestamp") or ""
+
+        # full-history counts
+        if lab in g:
+            g[lab] += 1
+            total += 1
+
+        # rolling window (moment)
+        if len(labels) == labels.maxlen:
+            old = labels[0]
+            if old in win:
+                win[old] -= 1
+        labels.append(lab)
+        if lab in win:
+            win[lab] += 1
+
+        trend.append(
+            {
+                "timestamp_utc": ts,
+                "positive_count": int(win["positive"]),
+                "neutral_count": int(win["neutral"]),
+                "negative_count": int(win["negative"]),
+                "window_size": int(len(labels)),
+            }
+        )
+
+        rr = dict(r)
+        rr["label"] = lab
+        rr["timestamp_utc"] = rr.get("timestamp_utc") or rr.get("timestamp") or ""
+        rr["score"] = _f(rr.get("score"))
+        series.append(rr)
+
+    return {"g": g, "total": total, "trend": list(trend), "series": list(series)}
+
+
+def _model_eval_latest() -> Optional[Dict[str, Any]]:
+    last = None
+    for r in _rows(MODEL_EVAL_LOG):
+        last = r
+    if not last:
+        return None
+    last = dict(last)
+    last["accuracy"] = _f(last.get("accuracy"))
+    last["macro_f1"] = _f(last.get("macro_f1"))
+    last["n_samples"] = _i(last.get("n_samples"))
     return last
 
 
-def load_model_eval_series(limit: int = 200) -> List[Dict[str, Any]]:
-    rows = _read_csv_tail(MODEL_EVAL_LOG, limit)
-    for r in rows:
-        if "accuracy" in r and r["accuracy"] not in (None, ""):
-            r["accuracy"] = float(r["accuracy"])
-        if "macro_f1" in r and r["macro_f1"] not in (None, ""):
-            r["macro_f1"] = float(r["macro_f1"])
-        if "n_samples" in r and r["n_samples"] not in (None, ""):
-            r["n_samples"] = int(float(r["n_samples"]))
-    return rows
+def _model_eval_series(limit: int = 200) -> List[Dict[str, Any]]:
+    tail = deque(maxlen=limit)
+    for r in _rows(MODEL_EVAL_LOG):
+        rr = dict(r)
+        rr["accuracy"] = _f(rr.get("accuracy"))
+        rr["macro_f1"] = _f(rr.get("macro_f1"))
+        rr["n_samples"] = _i(rr.get("n_samples"))
+        tail.append(rr)
+    return list(tail)
 
 
 def build_stats_payload() -> Dict[str, Any]:
-    sentiment_counts = load_sentiment_counts()
-    sentiment_series = load_sentiment_series()
-
+    s = _scan_sentiment()
     return {
-        "total_requests": sentiment_counts.get("total", 0),
-        "label_counts": sentiment_counts,
-        "label_distribution": sentiment_counts,
-
-        "time_series": sentiment_series,
-
+        "sentiment_counts": {**s["g"], "total": int(s["total"]), "scope": "full_history"},
+        "sentiment_trend_moment": s["trend"],
+        "sentiment_trend_window_size": TREND_WINDOW_SIZE,
         "sentiment": {
-            "summary": load_sentiment_summary(),
-            "series": sentiment_series,
+            "summary": {"total_predictions": int(s["total"]), "by_label": s["g"], "scope": "full_history"},
+            "series": s["series"],
         },
-
-        "sentiment_counts": sentiment_counts,
-        "model_eval": {
-            "latest": load_model_eval_latest(),
-            "series": load_model_eval_series(),
-        },
+        "model_eval": {"latest": _model_eval_latest(), "series": _model_eval_series()},
     }

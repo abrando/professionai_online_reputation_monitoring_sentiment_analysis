@@ -44,7 +44,7 @@ app = FastAPI(
         "Sentiment analysis API using a pretrained RoBERTa model from Hugging Face. "
         "Designed for MLOps workflows with monitoring and future retraining."
     ),
-    version="0.1.0",
+    version="1.0.0",
 )
 
 

@@ -4,7 +4,7 @@ Retraining pipeline.
 
 - Scans all CSV files inside data/new/
 - Loads all labeled examples
-- Prints a summary (original behavior)
+- Prints a summary
 - If there is data → trains a simple fine-tuned model
 - Saves model + metrics to models/fine_tuned/
 - If no data → skips retraining
@@ -95,7 +95,7 @@ def main() -> None:
     # Load CSVs
     dfs = _load_all_dfs(files)
 
-    # Print original-style summary
+    # Print summary
     print_retraining_plan(files, dfs)
 
     # Merge all non-empty DataFrames

@@ -7,3 +7,104 @@ timestamp_utc,label,score,text
 2025-12-14T17:32:22Z,negative,0.698310375213623,hate it
 2025-12-14T17:32:22Z,positive,0.8328481912612915,love it
 2025-12-21T10:51:21Z,neutral,0.7098949551582336,string
+2025-12-23T16:54:06Z,neutral,0.7098949551582336,string
+2025-12-23T17:11:04Z,positive,0.9875427484512329,"I absolutely love this product, it works perfectly!"
+2025-12-23T17:11:04Z,positive,0.9754020571708679,"Amazing customer service, very fast response and helpful support."
+2025-12-23T17:11:04Z,positive,0.9820240139961243,This app makes my daily workflow so much easier.
+2025-12-23T17:11:04Z,positive,0.9851629137992859,"Great experience overall, I would definitely recommend it."
+2025-12-23T17:11:04Z,positive,0.9876696467399597,The new update is fantastic and runs smoothly.
+2025-12-23T17:11:04Z,positive,0.979290246963501,Really impressed by the quality and performance.
+2025-12-23T17:11:04Z,positive,0.8966460227966309,"Everything works exactly as expected, no complaints."
+2025-12-23T17:11:04Z,positive,0.9862576127052307,This is one of the best tools I have used this year.
+2025-12-23T17:11:04Z,positive,0.9788990616798401,Very satisfied with the results so far.
+2025-12-23T17:11:04Z,positive,0.9769400358200073,"Excellent value for the price, totally worth it."
+2025-12-23T17:11:04Z,positive,0.8120783567428589,"The product is okay, nothing special but it does the job."
+2025-12-23T17:11:04Z,positive,0.6083398461341858,"It works fine, but there is room for improvement."
+2025-12-23T17:11:04Z,negative,0.6978223919868469,"The experience was average, not good and not bad."
+2025-12-23T17:11:04Z,neutral,0.5694867372512817,"Customer support replied, but it took some time."
+2025-12-23T17:11:04Z,positive,0.87453693151474,The interface is simple and easy to understand.
+2025-12-23T17:11:04Z,neutral,0.6974826455116272,It performs as described in the documentation.
+2025-12-23T17:11:04Z,neutral,0.6638697981834412,No major issues encountered during usage.
+2025-12-23T17:11:04Z,positive,0.6149484515190125,"The update changed a few things, but it is acceptable."
+2025-12-23T17:11:04Z,negative,0.48769089579582214,"The service is stable, but not outstanding."
+2025-12-23T17:11:04Z,neutral,0.52986079454422,It meets the basic requirements.
+2025-12-23T17:11:04Z,negative,0.9386489391326904,I am very disappointed with this product.
+2025-12-23T17:11:04Z,negative,0.9238606691360474,The application keeps crashing and is unusable.
+2025-12-23T17:11:04Z,negative,0.9402343034744263,"Terrible experience, I would not recommend it to anyone."
+2025-12-23T17:11:04Z,negative,0.9270244240760803,Customer support was unhelpful and slow.
+2025-12-23T17:11:04Z,negative,0.8661820888519287,The latest update broke several important features.
+2025-12-23T17:11:04Z,negative,0.9317745566368103,This is a complete waste of time and money.
+2025-12-23T17:11:04Z,negative,0.9231045246124268,The performance is extremely poor.
+2025-12-23T17:11:04Z,negative,0.924091637134552,I regret installing this application.
+2025-12-23T17:11:04Z,negative,0.9243335723876953,"Nothing works as expected, very frustrating."
+2025-12-23T17:11:04Z,negative,0.5771589279174805,The quality is far below my expectations.
+2025-12-23T17:11:04Z,negative,0.4495387077331543,The app looks nice but feels slow sometimes.
+2025-12-23T17:11:04Z,negative,0.8334673643112183,It started well but became buggy after the update.
+2025-12-23T17:11:04Z,neutral,0.4527382552623749,"Some features are useful, others are disappointing."
+2025-12-23T17:11:04Z,positive,0.7449930310249329,"The idea is good, but the execution could be better."
+2025-12-23T17:11:04Z,neutral,0.5427960753440857,"It works most of the time, but occasionally fails."
+2025-12-23T17:11:04Z,neutral,0.4771186113357544,"I like the design, but the performance needs improvement."
+2025-12-23T17:11:04Z,neutral,0.4920792579650879,"The setup process was easy, but usage is confusing."
+2025-12-23T17:11:04Z,negative,0.8028206825256348,Mixed feelings about this service so far.
+2025-12-23T17:11:04Z,neutral,0.6040955781936646,"The tool is helpful, although not very reliable."
+2025-12-23T17:11:04Z,neutral,0.5857139229774475,"It is acceptable, but I expected more from it."
+2025-12-23T17:17:40Z,positive,0.984166145324707,"Absolutely fantastic experience, everything worked flawlessly."
+2025-12-23T17:17:40Z,positive,0.989065408706665,I really enjoy using this service every single day.
+2025-12-23T17:17:40Z,positive,0.9820282459259033,The platform exceeded my expectations in many ways.
+2025-12-23T17:17:40Z,positive,0.970787525177002,Super smooth performance and very intuitive interface.
+2025-12-23T17:17:40Z,positive,0.988165020942688,I am extremely happy with the results so far.
+2025-12-23T17:17:40Z,positive,0.9843115210533142,"Great job by the development team, well done!"
+2025-12-23T17:17:40Z,positive,0.9402759671211243,This tool saves me a lot of time and effort.
+2025-12-23T17:17:40Z,positive,0.9818192720413208,The new features are very useful and well designed.
+2025-12-23T17:17:40Z,positive,0.9051404595375061,"Fast, reliable, and easy to use."
+2025-12-23T17:17:40Z,positive,0.9801445007324219,I would definitely recommend this to my colleagues.
+2025-12-23T17:17:40Z,positive,0.8423137068748474,Customer support was friendly and solved my issue quickly.
+2025-12-23T17:17:40Z,positive,0.7794118523597717,The onboarding process was clear and straightforward.
+2025-12-23T17:17:40Z,positive,0.9120585322380066,Everything feels polished and professional.
+2025-12-23T17:17:40Z,positive,0.8930867314338684,I trust this service for my daily tasks.
+2025-12-23T17:17:40Z,positive,0.9775252938270569,The quality of this product is impressive.
+2025-12-23T17:17:40Z,positive,0.9756537079811096,Very satisfied with the overall experience.
+2025-12-23T17:17:40Z,positive,0.9756727814674377,This update significantly improved performance.
+2025-12-23T17:17:40Z,positive,0.9309899806976318,The app works perfectly on my device.
+2025-12-23T17:17:40Z,positive,0.9759638905525208,I love how simple and efficient this is.
+2025-12-23T17:17:40Z,positive,0.9832550287246704,Excellent experience from start to finish.
+2025-12-23T17:17:40Z,neutral,0.5659847259521484,"The service works as intended, nothing more, nothing less."
+2025-12-23T17:17:40Z,neutral,0.6552998423576355,"It is fine for basic usage, but advanced features are limited."
+2025-12-23T17:17:40Z,neutral,0.5747094750404358,"The experience was neutral, no strong feelings either way."
+2025-12-23T17:17:40Z,negative,0.4948706030845642,"It does what it promises, but does not stand out."
+2025-12-23T17:17:40Z,neutral,0.5100052356719971,"The interface is acceptable, but could be cleaner."
+2025-12-23T17:17:40Z,negative,0.6484473347663879,"Performance is okay, not amazing."
+2025-12-23T17:17:40Z,positive,0.8188695907592773,It works most of the time without issues.
+2025-12-23T17:17:40Z,positive,0.562551736831665,No major problems encountered so far.
+2025-12-23T17:17:40Z,negative,0.7886713147163391,"The product is usable, but not exciting."
+2025-12-23T17:17:40Z,neutral,0.5519304275512695,It meets the minimum expectations.
+2025-12-23T17:17:40Z,neutral,0.619928777217865,"Some features are helpful, others are unnecessary."
+2025-12-23T17:17:40Z,negative,0.6044708490371704,"The app is stable, but lacks innovation."
+2025-12-23T17:17:40Z,neutral,0.772748589515686,"Documentation is available, but could be improved."
+2025-12-23T17:17:40Z,neutral,0.5123578310012817,"Setup was simple, usage is average."
+2025-12-23T17:17:40Z,negative,0.7297580242156982,I neither like nor dislike this product.
+2025-12-23T17:17:40Z,neutral,0.4946330189704895,"The design is fine, but nothing special."
+2025-12-23T17:17:40Z,positive,0.7986908555030823,It performs adequately for everyday tasks.
+2025-12-23T17:17:40Z,neutral,0.7655953764915466,"The update made small changes, nothing major."
+2025-12-23T17:17:40Z,neutral,0.6415335536003113,"The service is consistent, but unremarkable."
+2025-12-23T17:17:40Z,positive,0.677943766117096,"It works, but I expected more."
+2025-12-23T17:17:40Z,negative,0.9394752979278564,I am very unhappy with this product.
+2025-12-23T17:17:40Z,negative,0.9411323070526123,This application is full of bugs and issues.
+2025-12-23T17:17:40Z,negative,0.9452905058860779,"Terrible performance, extremely slow and unstable."
+2025-12-23T17:17:40Z,negative,0.9172008633613586,The latest update completely broke the app.
+2025-12-23T17:17:40Z,negative,0.8538455367088318,Customer support never replied to my request.
+2025-12-23T17:17:40Z,negative,0.946046769618988,This is one of the worst experiences I have had.
+2025-12-23T17:17:40Z,negative,0.9026527404785156,The product feels unfinished and poorly tested.
+2025-12-23T17:17:40Z,negative,0.9391506314277649,I regret spending time on this service.
+2025-12-23T17:17:40Z,negative,0.9390103816986084,"Nothing works properly, very frustrating."
+2025-12-23T17:17:40Z,negative,0.9244272708892822,The quality is unacceptable.
+2025-12-23T17:17:40Z,negative,0.9119020700454712,The app crashes frequently and loses data.
+2025-12-23T17:17:40Z,negative,0.9237419962882996,I am disappointed by the lack of reliability.
+2025-12-23T17:17:40Z,negative,0.9151360988616943,This service failed when I needed it the most.
+2025-12-23T17:17:40Z,negative,0.9146798849105835,The interface is confusing and poorly designed.
+2025-12-23T17:17:40Z,negative,0.8861300945281982,Performance issues make it hard to use.
+2025-12-23T17:17:40Z,negative,0.8487713932991028,The experience has been mostly negative.
+2025-12-23T17:17:40Z,negative,0.7220525145530701,Updates seem to introduce more problems than fixes.
+2025-12-23T17:17:40Z,negative,0.9023782014846802,The tool is unreliable and inconsistent.
+2025-12-23T17:17:40Z,negative,0.9105409383773804,Very poor experience overall.
+2025-12-23T17:17:40Z,negative,0.9012003540992737,I would not recommend this to anyone.
